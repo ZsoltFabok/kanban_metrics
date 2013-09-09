@@ -3,3 +3,4 @@ coverage
 data
 test.csv
 .rbenv-version
+pkg
