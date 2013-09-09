@@ -1,0 +1,25 @@
+#!/usr/bin/env ruby
+
+$LOAD_PATH.unshift File.expand_path('../../lib' , __FILE__)
+require 'kanban_metrics'
+
+def optional_date_arg(argv)
+	argv ? Date.parse(argv) : nil
+end
+
+
+work_items = KanbanMetrics::CsvLoader.new.load(ARGV[1])
+
+if ARGV[0] == "cfd"
+	command = KanbanMetrics::Commands::Cfd.new
+	view = KanbanMetrics::Commands::CfdView.new
+elsif ARGV[0] == "io"
+	command = KanbanMetrics::Commands::Io.new
+	view = KanbanMetrics::Commands::IoView.new
+elsif ARGV[0] == "leadtime"
+	command = KanbanMetrics::Commands::Leadtime.new
+	view = KanbanMetrics::Commands::LeadtimeView.new
+end
+
+chart_data = command.execute(work_items, optional_date_arg(ARGV[2]), optional_date_arg(ARGV[3]))
+view.render(chart_data)

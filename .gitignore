@@ -1,0 +1,5 @@
+Gemfile.lock
+coverage
+data
+test.csv
+.rbenv-version
