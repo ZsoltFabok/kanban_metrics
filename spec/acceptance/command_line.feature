@@ -78,6 +78,22 @@ Feature: command line
      When I run the command "bin/kanban_metrics io test.csv 2011-05-07 2011-05-29"
      Then I see "week, in, out\n2011-21,6,5"
 
+  Scenario: generate input output when an item has not been finished
+    Given the line in "test.csv" "id,committed,started,finished,delivered,type,back count,estimated time,spent time"
+      And the line in "test.csv" ",2011-05-26,2011-05-27,2011-05-31,2011-05-31"
+      And the line in "test.csv" ",2011-05-24,2011-05-30,2011-05-30,2011-05-30"
+      And the line in "test.csv" ",2011-05-24,2011-05-31,2011-05-31,2011-05-31"
+      And the line in "test.csv" ",2011-05-24,2011-05-26,2011-05-26,2011-05-26"
+      And the line in "test.csv" ",2011-05-30,2011-05-30,2011-05-30,2011-05-30"
+      And the line in "test.csv" ",2011-05-24,2011-05-26,2011-05-26,2011-05-26"
+      And the line in "test.csv" ",2011-05-24,2011-05-26,2011-05-26,2011-05-26"
+      And the line in "test.csv" ",2011-05-25,2011-05-31,2011-05-31,2011-05-31"
+      And the line in "test.csv" ",2011-05-23,2011-05-27,,"
+      And the line in "test.csv" ",2011-05-31,2011-05-31,2011-05-31,2011-05-31"
+      And the line in "test.csv" ",2011-05-24,2011-05-26,2011-05-26,2011-05-26"
+     When I run the command "bin/kanban_metrics io test.csv 2011-05-07 2011-05-29"
+     Then I see "week, in, out\n2011-21,6,4"
+
    Scenario: lead time histogram
     Given the line in "test.csv" "id,committed,started,finished,delivered,type,back count,estimated time,spent time"
       And the line in "test.csv" ",2011-05-26,2011-05-27,2011-05-31,2011-05-31"

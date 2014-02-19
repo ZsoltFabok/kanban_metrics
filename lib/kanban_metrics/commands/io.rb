@@ -4,18 +4,22 @@ module KanbanMetrics
 			def execute(work_items, start = nil, end_ = nil)
 				chart_data = {}
 				work_items.each do |work_item|
-					in_ = "#{work_item.started.year}-#{work_item.started.cweek}"
-					out = "#{work_item.delivered.year}-#{work_item.delivered.cweek}"
-					if chart_data[in_].nil?
-						chart_data[in_] = [0, 0]
-					end
 
-					if chart_data[out].nil?
-						chart_data[out] = [0, 0]
-					end
+          if work_item.started
+            in_ = "#{work_item.started.year}-#{work_item.started.cweek}"
+            if chart_data[in_].nil?
+              chart_data[in_] = [0, 0]
+            end
+            chart_data[in_][0] += 1
+          end
 
-					chart_data[in_][0] += 1
-					chart_data[out][1] += 1
+          if work_item.delivered
+            out = "#{work_item.delivered.year}-#{work_item.delivered.cweek}"
+            if chart_data[out].nil?
+              chart_data[out] = [0, 0]
+            end
+            chart_data[out][1] += 1
+          end
 				end
 
 				start = earliest_started(work_items) if start.nil?
