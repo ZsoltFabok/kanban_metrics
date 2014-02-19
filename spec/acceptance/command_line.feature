@@ -62,6 +62,17 @@ Feature: command line
      When I run the command "bin/kanban_metrics io test.csv"
      Then I see "week, in, out\n2011-21,6,5\n2011-22,5,6"
 
+  Scenario: generate input output and skip unstarted work items
+    Given the line in "test.csv" "id,committed,started,finished,delivered,type,back count,estimated time,spent time"
+      And the line in "test.csv" ",2011-05-26,2011-05-27,2011-05-31,2011-05-31"
+      And the line in "test.csv" ",2011-05-24,2011-05-30,2011-05-30,2011-05-30"
+      And the line in "test.csv" ",2011-05-24,2011-05-31,2011-05-31,2011-05-31"
+      And the line in "test.csv" ",2011-05-24,2011-05-26,2011-05-26,2011-05-26"
+      And the line in "test.csv" ",,,,"
+      And the line in "test.csv" ",2011-05-24,2011-05-26,2011-05-26,2011-05-26"
+     When I run the command "bin/kanban_metrics io test.csv"
+     Then I see "week, in, out\n2011-21,3,2\n2011-22,2,3"
+
   Scenario: generate input output in a time window
     Given the line in "test.csv" "id,committed,started,finished,delivered,type,back count,estimated time,spent time"
       And the line in "test.csv" ",2011-05-26,2011-05-27,2011-05-31,2011-05-31"

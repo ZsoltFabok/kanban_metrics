@@ -21,7 +21,6 @@ module KanbanMetrics
             chart_data[out][1] += 1
           end
 				end
-
 				start = earliest_started(work_items) if start.nil?
 				end_ = latest_delivered(work_items) if end_.nil?
 				start_cweek = "#{start.year}-#{start.cweek}"
@@ -36,11 +35,11 @@ module KanbanMetrics
 
 			private
 			def earliest_started(work_items)
-				work_items.map {|work_item| work_item.started}.min
+				work_items.select{|work_item| work_item.started}.map {|work_item| work_item.started}.min
 			end
 
 			def latest_delivered(work_items)
-				work_items.map {|work_item| work_item.delivered}.max
+				work_items.select{|work_item| work_item.delivered}.map {|work_item| work_item.delivered}.max
 			end
 		end
 	end
